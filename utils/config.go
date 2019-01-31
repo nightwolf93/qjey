@@ -1,4 +1,4 @@
-package config
+package utils
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 	"os"
 )
 
-// Init .. init the config from .env file
-func Init() {
+// InitConfig .. init the config from .env file
+func InitConfig() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
