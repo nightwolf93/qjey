@@ -46,6 +46,7 @@ _testmain.go
 /test/times.out
 
 .idea
+.idea/**
 vendor
 bin
 .env
