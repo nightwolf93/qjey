@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"os"
 	"qjey/qjeyserver"
@@ -23,7 +24,7 @@ func main() {
 	utils.InitConfig()
 
 	// starting the engine
-	logrus.Info("starting qjey engine")
+	logrus.Info(fmt.Sprintf("starting qjey engine | build %d %s", utils.QJEYSERVER_VERSION, utils.QJEYSERVER_BUILD_TYPE))
 	storage.Init()
 
 	qjeyServerConfig := qjeyserver.NewQjeyServerConfigFromEnv()
