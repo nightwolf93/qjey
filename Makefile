@@ -5,3 +5,5 @@ run: build-proto
 
 build-proto:
 	protoc qjeyserver/qjeyserverprob/qjeyserver.proto --go_out=plugins=grpc:.
+
+test-grpc:

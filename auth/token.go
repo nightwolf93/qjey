@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"os"
+	"github.com/sirupsen/logrus"
 	"time"
 )
 
@@ -18,7 +18,11 @@ func NewToken() *Token {
 		"iat": time.Now().UTC().Unix(),
 		"exp": time.Now().UTC().Add(time.Hour * 24 * 30).Unix(),
 	})
-	tokenString, _ := tokenJwt.SignedString(os.Getenv("JWT_SIGNING_KEY"))
+	tokenString, err := tokenJwt.SigningString()
+	if err != nil {
+		logrus.Error("can't create auth token: ", err)
+		return nil
+	}
 	token := &Token{
 		TokenString: tokenString,
 		CreatedAt: time.Now().UTC(),
@@ -32,7 +36,7 @@ func ParseToken(tokenString string) {
 
 }
 
-// Check if the token is valid
+// IsValid .. Check if the token is valid
 func (t *Token) IsValid() {
 
 }

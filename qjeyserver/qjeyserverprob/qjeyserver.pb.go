@@ -3,12 +3,13 @@
 
 package qjeyserver
 
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
+
 import (
-	context "context"
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
+	context "golang.org/x/net/context"
 	grpc "google.golang.org/grpc"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -20,19 +21,181 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-func init() {
-	proto.RegisterFile("qjeyserver/qjeyserverprob/qjeyserver.proto", fileDescriptor_03728808cef42af0)
+type RequestTokenMessage struct {
+	ApiKey               string   `protobuf:"bytes,1,opt,name=apiKey,proto3" json:"apiKey,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-var fileDescriptor_03728808cef42af0 = []byte{
-	// 66 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xd2, 0x2a, 0xcc, 0x4a, 0xad,
-	0x2c, 0x4e, 0x2d, 0x2a, 0x4b, 0x2d, 0xd2, 0x47, 0x30, 0x0b, 0x8a, 0xf2, 0x93, 0x90, 0xb8, 0x7a,
-	0x05, 0x45, 0xf9, 0x25, 0xf9, 0x46, 0x3c, 0x5c, 0x5c, 0x81, 0x59, 0xa9, 0x95, 0xc1, 0x60, 0xb1,
-	0x24, 0x36, 0xb0, 0xa0, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x37, 0x99, 0xb7, 0x7f, 0x42, 0x00,
-	0x00, 0x00,
+func (m *RequestTokenMessage) Reset()         { *m = RequestTokenMessage{} }
+func (m *RequestTokenMessage) String() string { return proto.CompactTextString(m) }
+func (*RequestTokenMessage) ProtoMessage()    {}
+func (*RequestTokenMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_qjeyserver_927c103575af9b2a, []int{0}
+}
+func (m *RequestTokenMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RequestTokenMessage.Unmarshal(m, b)
+}
+func (m *RequestTokenMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RequestTokenMessage.Marshal(b, m, deterministic)
+}
+func (dst *RequestTokenMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RequestTokenMessage.Merge(dst, src)
+}
+func (m *RequestTokenMessage) XXX_Size() int {
+	return xxx_messageInfo_RequestTokenMessage.Size(m)
+}
+func (m *RequestTokenMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_RequestTokenMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RequestTokenMessage proto.InternalMessageInfo
+
+func (m *RequestTokenMessage) GetApiKey() string {
+	if m != nil {
+		return m.ApiKey
+	}
+	return ""
+}
+
+type RequestTokenResponse struct {
+	Status               int32    `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Token                string   `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	Nodes                []string `protobuf:"bytes,3,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RequestTokenResponse) Reset()         { *m = RequestTokenResponse{} }
+func (m *RequestTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*RequestTokenResponse) ProtoMessage()    {}
+func (*RequestTokenResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_qjeyserver_927c103575af9b2a, []int{1}
+}
+func (m *RequestTokenResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RequestTokenResponse.Unmarshal(m, b)
+}
+func (m *RequestTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RequestTokenResponse.Marshal(b, m, deterministic)
+}
+func (dst *RequestTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RequestTokenResponse.Merge(dst, src)
+}
+func (m *RequestTokenResponse) XXX_Size() int {
+	return xxx_messageInfo_RequestTokenResponse.Size(m)
+}
+func (m *RequestTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_RequestTokenResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RequestTokenResponse proto.InternalMessageInfo
+
+func (m *RequestTokenResponse) GetStatus() int32 {
+	if m != nil {
+		return m.Status
+	}
+	return 0
+}
+
+func (m *RequestTokenResponse) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+func (m *RequestTokenResponse) GetNodes() []string {
+	if m != nil {
+		return m.Nodes
+	}
+	return nil
+}
+
+type CheckTokenValidityMessage struct {
+	Token                string   `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CheckTokenValidityMessage) Reset()         { *m = CheckTokenValidityMessage{} }
+func (m *CheckTokenValidityMessage) String() string { return proto.CompactTextString(m) }
+func (*CheckTokenValidityMessage) ProtoMessage()    {}
+func (*CheckTokenValidityMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_qjeyserver_927c103575af9b2a, []int{2}
+}
+func (m *CheckTokenValidityMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CheckTokenValidityMessage.Unmarshal(m, b)
+}
+func (m *CheckTokenValidityMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CheckTokenValidityMessage.Marshal(b, m, deterministic)
+}
+func (dst *CheckTokenValidityMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CheckTokenValidityMessage.Merge(dst, src)
+}
+func (m *CheckTokenValidityMessage) XXX_Size() int {
+	return xxx_messageInfo_CheckTokenValidityMessage.Size(m)
+}
+func (m *CheckTokenValidityMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_CheckTokenValidityMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CheckTokenValidityMessage proto.InternalMessageInfo
+
+func (m *CheckTokenValidityMessage) GetToken() string {
+	if m != nil {
+		return m.Token
+	}
+	return ""
+}
+
+type CheckTokenValidityResponse struct {
+	Valid                bool     `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CheckTokenValidityResponse) Reset()         { *m = CheckTokenValidityResponse{} }
+func (m *CheckTokenValidityResponse) String() string { return proto.CompactTextString(m) }
+func (*CheckTokenValidityResponse) ProtoMessage()    {}
+func (*CheckTokenValidityResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_qjeyserver_927c103575af9b2a, []int{3}
+}
+func (m *CheckTokenValidityResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CheckTokenValidityResponse.Unmarshal(m, b)
+}
+func (m *CheckTokenValidityResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CheckTokenValidityResponse.Marshal(b, m, deterministic)
+}
+func (dst *CheckTokenValidityResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CheckTokenValidityResponse.Merge(dst, src)
+}
+func (m *CheckTokenValidityResponse) XXX_Size() int {
+	return xxx_messageInfo_CheckTokenValidityResponse.Size(m)
+}
+func (m *CheckTokenValidityResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CheckTokenValidityResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CheckTokenValidityResponse proto.InternalMessageInfo
+
+func (m *CheckTokenValidityResponse) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
+func init() {
+	proto.RegisterType((*RequestTokenMessage)(nil), "qjeyserver.RequestTokenMessage")
+	proto.RegisterType((*RequestTokenResponse)(nil), "qjeyserver.RequestTokenResponse")
+	proto.RegisterType((*CheckTokenValidityMessage)(nil), "qjeyserver.CheckTokenValidityMessage")
+	proto.RegisterType((*CheckTokenValidityResponse)(nil), "qjeyserver.CheckTokenValidityResponse")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -47,6 +210,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QjeyServerClient interface {
+	RequestToken(ctx context.Context, in *RequestTokenMessage, opts ...grpc.CallOption) (*RequestTokenResponse, error)
+	CheckTokenValidity(ctx context.Context, in *CheckTokenValidityMessage, opts ...grpc.CallOption) (*CheckTokenValidityResponse, error)
 }
 
 type qjeyServerClient struct {
@@ -57,18 +222,107 @@ func NewQjeyServerClient(cc *grpc.ClientConn) QjeyServerClient {
 	return &qjeyServerClient{cc}
 }
 
+func (c *qjeyServerClient) RequestToken(ctx context.Context, in *RequestTokenMessage, opts ...grpc.CallOption) (*RequestTokenResponse, error) {
+	out := new(RequestTokenResponse)
+	err := c.cc.Invoke(ctx, "/qjeyserver.QjeyServer/RequestToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *qjeyServerClient) CheckTokenValidity(ctx context.Context, in *CheckTokenValidityMessage, opts ...grpc.CallOption) (*CheckTokenValidityResponse, error) {
+	out := new(CheckTokenValidityResponse)
+	err := c.cc.Invoke(ctx, "/qjeyserver.QjeyServer/CheckTokenValidity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QjeyServerServer is the server API for QjeyServer service.
 type QjeyServerServer interface {
+	RequestToken(context.Context, *RequestTokenMessage) (*RequestTokenResponse, error)
+	CheckTokenValidity(context.Context, *CheckTokenValidityMessage) (*CheckTokenValidityResponse, error)
 }
 
 func RegisterQjeyServerServer(s *grpc.Server, srv QjeyServerServer) {
 	s.RegisterService(&_QjeyServer_serviceDesc, srv)
 }
 
+func _QjeyServer_RequestToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestTokenMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QjeyServerServer).RequestToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/qjeyserver.QjeyServer/RequestToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QjeyServerServer).RequestToken(ctx, req.(*RequestTokenMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _QjeyServer_CheckTokenValidity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckTokenValidityMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QjeyServerServer).CheckTokenValidity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/qjeyserver.QjeyServer/CheckTokenValidity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QjeyServerServer).CheckTokenValidity(ctx, req.(*CheckTokenValidityMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _QjeyServer_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "QjeyServer",
+	ServiceName: "qjeyserver.QjeyServer",
 	HandlerType: (*QjeyServerServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "qjeyserver/qjeyserverprob/qjeyserver.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "RequestToken",
+			Handler:    _QjeyServer_RequestToken_Handler,
+		},
+		{
+			MethodName: "CheckTokenValidity",
+			Handler:    _QjeyServer_CheckTokenValidity_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "qjeyserver/qjeyserverprob/qjeyserver.proto",
+}
+
+func init() {
+	proto.RegisterFile("qjeyserver/qjeyserverprob/qjeyserver.proto", fileDescriptor_qjeyserver_927c103575af9b2a)
+}
+
+var fileDescriptor_qjeyserver_927c103575af9b2a = []byte{
+	// 256 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x91, 0xcf, 0x4a, 0xc3, 0x40,
+	0x10, 0xc6, 0x8d, 0x25, 0x45, 0x07, 0x4f, 0x63, 0x90, 0x98, 0x8b, 0x61, 0x41, 0x11, 0xc1, 0x8a,
+	0xf5, 0x11, 0x3c, 0x8a, 0x07, 0xb7, 0xe2, 0xc1, 0x5b, 0x6a, 0x07, 0x4d, 0x2b, 0xd9, 0x74, 0x67,
+	0x5b, 0xd8, 0x37, 0xf4, 0xb1, 0x64, 0xa7, 0x7f, 0xb2, 0x50, 0xeb, 0x6d, 0xbf, 0x8f, 0xdf, 0x7c,
+	0xf3, 0x67, 0xe1, 0x66, 0x3e, 0x25, 0xcf, 0x64, 0x97, 0x64, 0xef, 0xba, 0x67, 0x6b, 0xcd, 0x38,
+	0x92, 0x83, 0xd6, 0x1a, 0x67, 0x10, 0x3a, 0x47, 0xdd, 0xc2, 0xa9, 0xa6, 0xf9, 0x82, 0xd8, 0xbd,
+	0x9a, 0x19, 0x35, 0xcf, 0xc4, 0x5c, 0x7d, 0x12, 0x9e, 0x41, 0xbf, 0x6a, 0xeb, 0x27, 0xf2, 0x79,
+	0x52, 0x26, 0xd7, 0xc7, 0x7a, 0xad, 0xd4, 0x3b, 0x64, 0x31, 0xae, 0x89, 0x5b, 0xd3, 0xb0, 0xf0,
+	0xec, 0x2a, 0xb7, 0x60, 0xe1, 0x53, 0xbd, 0x56, 0x98, 0x41, 0xea, 0x02, 0x98, 0x1f, 0x4a, 0xcc,
+	0x4a, 0x04, 0xb7, 0x31, 0x13, 0xe2, 0xbc, 0x57, 0xf6, 0x82, 0x2b, 0x42, 0xdd, 0xc3, 0xf9, 0xe3,
+	0x17, 0x7d, 0xcc, 0x24, 0xf9, 0xad, 0xfa, 0xae, 0x27, 0xb5, 0xf3, 0x9b, 0x81, 0xb6, 0x41, 0x49,
+	0x14, 0xa4, 0x86, 0x50, 0xec, 0x96, 0x6c, 0x87, 0xca, 0x20, 0x5d, 0x06, 0x4f, 0x6a, 0x8e, 0xf4,
+	0x4a, 0x0c, 0x7f, 0x12, 0x80, 0x97, 0x29, 0xf9, 0x91, 0x1c, 0x00, 0x47, 0x70, 0x12, 0x6f, 0x84,
+	0x17, 0x83, 0xe8, 0x5e, 0x7f, 0x9c, 0xa6, 0x28, 0xf7, 0x01, 0x9b, 0xbe, 0xea, 0x00, 0x09, 0x70,
+	0x77, 0x2e, 0xbc, 0x8c, 0x2b, 0xf7, 0xae, 0x5a, 0x5c, 0xfd, 0x8f, 0x75, 0x6d, 0xc6, 0x7d, 0xf9,
+	0xcf, 0x87, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x91, 0xd2, 0x5b, 0x2c, 0xfd, 0x01, 0x00, 0x00,
 }

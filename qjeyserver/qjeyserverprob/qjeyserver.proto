@@ -1,5 +1,26 @@
 syntax = "proto3";
 
-service QjeyServer {
+package qjeyserver;
 
+service QjeyServer {
+    rpc RequestToken(RequestTokenMessage) returns (RequestTokenResponse) {}
+    rpc CheckTokenValidity(CheckTokenValidityMessage) returns (CheckTokenValidityResponse) {}
+}
+
+message RequestTokenMessage {
+    string apiKey = 1;
+}
+
+message RequestTokenResponse {
+    int32 status = 1;
+    string token = 2;
+    repeated string nodes = 3;
+}
+
+message CheckTokenValidityMessage {
+    string token = 1;
+}
+
+message CheckTokenValidityResponse {
+    bool valid = 1;
 }

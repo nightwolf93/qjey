@@ -31,4 +31,8 @@ func main() {
 	qjeyServer := qjeyserver.NewQjeyServer(qjeyServerConfig)
 
 	_ = qjeyServer
+
+	// keep alive the server with a infinite wait
+	forever := make(chan int)
+	_ = <- forever
 }
